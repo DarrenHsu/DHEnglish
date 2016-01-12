@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
+    <entity name="SentenceEntity" representedClassName="SentenceEntity" syncable="YES">
+        <attribute name="sentence" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="rs_Word" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WordEntity" inverseName="rs_Sentence" inverseEntity="WordEntity" syncable="YES"/>
+    </entity>
+    <entity name="WordEntity" representedClassName="WordEntity" syncable="YES">
+        <attribute name="number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="word" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="rs_Sentence" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SentenceEntity" inverseName="rs_Word" inverseEntity="SentenceEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SentenceEntity" positionX="126" positionY="-18" width="128" height="75"/>
+        <element name="WordEntity" positionX="-63" positionY="-18" width="128" height="90"/>
+    </elements>
+</model>

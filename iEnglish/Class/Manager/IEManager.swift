@@ -13,7 +13,7 @@ class IEManager: NSObject {
 
     var words : NSArray?
     var count : NSInteger?
-    var currentIndex : NSInteger?
+    var currentIndex : NSInteger = 0
 
     func getCurrentWords() {
         words = WordEntity.getWords()

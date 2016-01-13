@@ -87,4 +87,15 @@ class WordEntity: NSManagedObject {
             print("<DB> \(NSStringFromSelector(__FUNCTION__)) end")
         }
     }
+
+    func delete() {
+        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+            print("<DB> \(NSStringFromSelector(__FUNCTION__)) start")
+
+            let entity : WordEntity? = self.MR_inContext(context)
+            entity?.MR_deleteEntityInContext(context)
+
+            print("<DB> \(NSStringFromSelector(__FUNCTION__)) end")
+        }
+    }
 }

@@ -20,6 +20,7 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
 
         setDefaultData()
+        manager.currentIndex = currentIndex
     }
 
     override func didReceiveMemoryWarning() {

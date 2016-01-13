@@ -13,7 +13,6 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
     @IBOutlet weak var pageView : UIView?
 
     var pageController : UIPageViewController?
-    var currentIndex : NSInteger?
     let manager : IEManager = IEManager.sharedInstance
 
     override func viewDidLoad() {
@@ -22,8 +21,7 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         self.title = "Word Book"
 
         manager.getCurrentWords()
-
-        currentIndex = 0
+        manager.currentIndex = 0
 
         let c : ContentViewController? = getContentController(0)
 
@@ -52,7 +50,6 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         if (0 <= pageIndex && pageIndex < manager.count) {
             let controller : ContentViewController? = self.storyboard!.instantiateViewControllerWithIdentifier("ContentViewController") as? ContentViewController
             controller?.currentIndex = pageIndex
-            currentIndex = pageIndex
             return controller;
         } else {
             return nil
@@ -61,10 +58,10 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
 
     // MARK: - UIPageViewControllerDataSsource
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        return getContentController(currentIndex! - 1)
+        return getContentController(manager.currentIndex! - 1)
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        return getContentController(currentIndex! + 1)
+        return getContentController(manager.currentIndex! + 1)
     }
 }

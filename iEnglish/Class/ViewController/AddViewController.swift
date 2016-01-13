@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddViewController: BaseViewController {
+class AddViewController: BaseViewController, UITextFieldDelegate {
 
     @IBOutlet weak var wordField : UITextField?
     @IBOutlet weak var sentenceTextView: UITextView?
@@ -45,11 +45,27 @@ class AddViewController: BaseViewController {
         // Do any additional setup after loading the view.
 
         self.title = "Add Word"
+
+        let tap : UITapGestureRecognizer! = UITapGestureRecognizer.init(target: self, action: Selector("tapRecognizer:"))
+        self.view.addGestureRecognizer(tap)
+
+        wordField?.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    func tapRecognizer(recognizer : UITapGestureRecognizer!) {
+        wordField?.resignFirstResponder()
+        sentenceTextView?.resignFirstResponder()
+    }
+
+    // MARK: UITextViewDelegate Methods
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
 }

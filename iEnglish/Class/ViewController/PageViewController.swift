@@ -66,6 +66,7 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
 
         pageController = UIPageViewController.init();
         pageController?.dataSource = self
+        pageController?.delegate = self
         pageController?.view.frame = pageView!.bounds
 
         self.addChildViewController(pageController!)
@@ -90,12 +91,22 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         }
     }
 
-    // MARK: - UIPageViewControllerDataSsource
+    // MARK: - UIPageViewController DataSsource
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         return getContentController(manager.currentIndex - 1)
     }
 
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         return getContentController(manager.currentIndex + 1)
+    }
+
+    // MARK - UIPageViewController Delegate 
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed != true {
+            for previousViewController in previousViewControllers {
+                let index : NSInteger? = (previousViewController as! ContentViewController).currentIndex
+                manager.currentIndex = index!
+            }
+        }
     }
 }

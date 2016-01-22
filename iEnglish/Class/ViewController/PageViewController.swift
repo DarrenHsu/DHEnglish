@@ -104,7 +104,7 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         return getContentController(manager.currentIndex + 1)
     }
 
-    // MARK - UIPageViewController Delegate 
+    // MARK: - UIPageViewController Delegate 
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed != true {
             for previousViewController in previousViewControllers {

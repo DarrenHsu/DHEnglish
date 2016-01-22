@@ -88,6 +88,19 @@ class WordEntity: NSManagedObject {
         }
     }
 
+    func update(word : String?, sentence : String?) {
+        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+            print("<DB> \(NSStringFromSelector(__FUNCTION__)) start")
+
+            let entity : WordEntity? = self.MR_inContext(context)
+            entity?.word = word
+            SentenceEntity.deleteSentence(entity, context: context)
+            SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
+
+            print("<DB> \(NSStringFromSelector(__FUNCTION__)) end")
+        }
+    }
+
     func delete() {
         MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
             print("<DB> \(NSStringFromSelector(__FUNCTION__)) start")

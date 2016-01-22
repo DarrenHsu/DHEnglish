@@ -1,5 +1,5 @@
 //
-//  AddViewController.swift
+//  EditViewController.swift
 //  DHEnglish
 //
 //  Created by Dareen Hsu on 1/22/16.
@@ -8,20 +8,24 @@
 
 import UIKit
 
-class AddViewController: BaseViewController, UITextFieldDelegate {
+class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var wordField : UITextField?
     @IBOutlet weak var sentenceTextView: UITextView?
+
+    var selectWord : WordEntity?
 
     @IBAction func submitPressed(sender : UIButton) {
         if !checkData() {
             return
         }
 
-        WordEntity.addWord(wordField?.text, sentence: sentenceTextView?.text)
-        wordField?.text = nil
-        sentenceTextView?.text = nil
-        showAlert("Add Success!")
+        selectWord?.update(wordField?.text, sentence: sentenceTextView?.text)
+        showAlert("Update Success!")
+    }
+
+    @IBAction func backPressed(sender : UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 
     private func checkData() -> Bool {
@@ -47,11 +51,20 @@ class AddViewController: BaseViewController, UITextFieldDelegate {
         self.view.addGestureRecognizer(tap)
 
         wordField?.delegate = self
+        setDefaultValue()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    func setDefaultValue() {
+        if (selectWord != nil) {
+            wordField?.text = selectWord?.word
+            let sEntity : SentenceEntity? = SentenceEntity.getSentence(selectWord!)
+            sentenceTextView?.text = sEntity?.sentence
+        }
     }
 
     func tapRecognizer(recognizer : UITapGestureRecognizer!) {
@@ -64,4 +77,5 @@ class AddViewController: BaseViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
 }

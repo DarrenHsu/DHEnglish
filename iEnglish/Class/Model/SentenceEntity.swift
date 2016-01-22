@@ -62,4 +62,27 @@ class SentenceEntity: NSManagedObject {
 
         return result
     }
+
+    static func deleteSentence(wEntity : WordEntity? , context : NSManagedObjectContext?) {
+        print("<DB> \(NSStringFromSelector(__FUNCTION__)) start")
+
+        let pre : NSPredicate = appendPredicate(nil, wEntity: wEntity)!
+        let sEntities : [SentenceEntity]! = SentenceEntity.MR_findAllWithPredicate(pre, inContext: context) as! [SentenceEntity]
+
+        for sEntity in sEntities! {
+            sEntity.deleteInContext(context)
+        }
+
+        print("<DB> \(NSStringFromSelector(__FUNCTION__)) end")
+    }
+
+    func delete() {
+        let context : NSManagedObjectContext! = NSManagedObjectContext.MR_defaultContext()
+        deleteInContext(context)
+    }
+
+    func deleteInContext(context : NSManagedObjectContext?) {
+        let entity : SentenceEntity? = self.MR_inContext(context)
+        entity?.MR_deleteEntityInContext(context)
+    }
 }

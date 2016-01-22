@@ -19,8 +19,13 @@ class ContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setDefaultData()
         manager.currentIndex = currentIndex!
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setDefaultData()
     }
 
     override func didReceiveMemoryWarning() {

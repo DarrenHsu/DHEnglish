@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8C135BAE1C29299000BB4509 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C135BAD1C29299000BB4509 /* AddViewController.swift */; };
+		8C3E58AE1C51B815009A6F12 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E58AD1C51B815009A6F12 /* EditViewController.swift */; };
+		8C3E58B01C51C515009A6F12 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E58AF1C51C515009A6F12 /* AddViewController.swift */; };
 		8C511E911C3A51B000D96606 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C511E901C3A51B000D96606 /* ContentViewController.swift */; };
 		8CC3A1621BFC0808009DE18F /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CC3A1261BFC0808009DE18F /* MagicalImportFunctions.m */; };
 		8CC3A1631BFC0808009DE18F /* NSAttributeDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CC3A1281BFC0808009DE18F /* NSAttributeDescription+MagicalDataImport.m */; };
@@ -58,7 +59,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8C135BAD1C29299000BB4509 /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		8C3E58AD1C51B815009A6F12 /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		8C3E58AF1C51C515009A6F12 /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		8C511E901C3A51B000D96606 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		8CC3A1251BFC0808009DE18F /* MagicalImportFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalImportFunctions.h; sourceTree = "<group>"; };
 		8CC3A1261BFC0808009DE18F /* MagicalImportFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalImportFunctions.m; sourceTree = "<group>"; };
@@ -286,8 +288,9 @@
 				8CEBE9671C2792CA00E072B7 /* PageViewController.swift */,
 				8CEBE9811C27982B00E072B7 /* MenuViewController.swift */,
 				8CEBE9831C27A41000E072B7 /* BaseViewController.swift */,
-				8C135BAD1C29299000BB4509 /* AddViewController.swift */,
 				8C511E901C3A51B000D96606 /* ContentViewController.swift */,
+				8C3E58AF1C51C515009A6F12 /* AddViewController.swift */,
+				8C3E58AD1C51B815009A6F12 /* EditViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -467,10 +470,10 @@
 				8CC3A16F1BFC0808009DE18F /* NSManagedObjectContext+MagicalObserving.m in Sources */,
 				8CC3A16B1BFC0808009DE18F /* NSManagedObject+MagicalFinders.m in Sources */,
 				8CC3A16C1BFC0808009DE18F /* NSManagedObject+MagicalRecord.m in Sources */,
-				8C135BAE1C29299000BB4509 /* AddViewController.swift in Sources */,
 				8CF399111C3B76AD0087417A /* SentenceEntity.swift in Sources */,
 				8CC3A1751BFC0808009DE18F /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				8CEBE97B1C2796ED00E072B7 /* SlideNavigationContorllerAnimatorScale.m in Sources */,
+				8C3E58AE1C51B815009A6F12 /* EditViewController.swift in Sources */,
 				8CC3A1731BFC0808009DE18F /* NSManagedObjectModel+MagicalRecord.m in Sources */,
 				8CEBE97E1C2796ED00E072B7 /* SlideNavigationContorllerAnimatorSlideAndFade.m in Sources */,
 				8CC3A1641BFC0808009DE18F /* NSEntityDescription+MagicalDataImport.m in Sources */,
@@ -489,6 +492,7 @@
 				8CC3A1691BFC0808009DE18F /* NSManagedObject+MagicalAggregation.m in Sources */,
 				8CEBE9681C2792CA00E072B7 /* PageViewController.swift in Sources */,
 				8CEBE9821C27982B00E072B7 /* MenuViewController.swift in Sources */,
+				8C3E58B01C51C515009A6F12 /* AddViewController.swift in Sources */,
 				8CC3A1791BFC0808009DE18F /* MagicalRecord+Options.m in Sources */,
 				8CEBE97C1C2796ED00E072B7 /* SlideNavigationContorllerAnimatorScaleAndFade.m in Sources */,
 				8CC3A17A1BFC0808009DE18F /* MagicalRecord+Setup.m in Sources */,

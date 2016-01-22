@@ -20,7 +20,11 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
 
         if (self.manager.count > 0) {
             let updateAction = UIAlertAction(title: "Update", style: .Default, handler: {(action : UIAlertAction) -> Void in
+                let controller : EditViewController! = self.storyboard!.instantiateViewControllerWithIdentifier("EditViewController") as! EditViewController
 
+                let word : WordEntity! = self.manager.words![self.manager.currentIndex] as! WordEntity
+                controller.selectWord = word
+                self.navigationController?.pushViewController(controller, animated: true)
             })
             alertController.addAction(updateAction)
         }

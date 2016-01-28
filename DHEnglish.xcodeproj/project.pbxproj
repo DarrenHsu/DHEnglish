@@ -616,11 +616,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Darren Hsu (VKSYBVAFT7)";
 				INFOPLIST_FILE = iEnglish/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tw.com.dh.iEnglish;
 				PRODUCT_NAME = DHEnglish;
+				PROVISIONING_PROFILE = "bf58d499-5a8a-458c-8024-27017d8dfc87";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/iEnglish/Class/iEnglish-Bridging-Header.h";
 			};
 			name = Debug;
@@ -629,11 +631,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Darren Hsu (VKSYBVAFT7)";
 				INFOPLIST_FILE = iEnglish/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tw.com.dh.iEnglish;
 				PRODUCT_NAME = DHEnglish;
+				PROVISIONING_PROFILE = "bf58d499-5a8a-458c-8024-27017d8dfc87";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/iEnglish/Class/iEnglish-Bridging-Header.h";
 			};
 			name = Release;

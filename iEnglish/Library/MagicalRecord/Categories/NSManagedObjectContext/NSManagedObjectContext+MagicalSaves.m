@@ -38,7 +38,7 @@
 {
     __block BOOL hasChanges = NO;
 
-    if ([self concurrencyType] == NSConfinementConcurrencyType)
+    if ([self concurrencyType] == 0x00)
     {
         hasChanges = [self hasChanges];
     }

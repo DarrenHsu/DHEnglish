@@ -43,15 +43,36 @@ class AddViewController: BaseViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
 
-        let tap : UITapGestureRecognizer! = UITapGestureRecognizer.init(target: self, action: Selector("tapRecognizer:"))
+        let tap : UITapGestureRecognizer! = UITapGestureRecognizer.init(target: self, action: #selector(tapRecognizer))
         self.view.addGestureRecognizer(tap)
 
         wordField?.delegate = self
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidHide), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    func keyboardWillShow(notification : NSNotification!) {
+        let height : CGFloat = (self.wordField?.superview!.frame.origin.y)! - 55
+        var frame : CGRect! = self.view.frame
+        frame.origin.y = -height
+        UIView.animateWithDuration(0.28, animations: {
+            self.view.frame = frame
+        })
+    }
+
+    func keyboardDidHide(notification : NSNotification!) {
+        var frame : CGRect = self.view.frame
+        frame.origin.y = 0
+        UIView.animateWithDuration(0.28, animations: {
+            self.view.frame = frame
+        })
     }
 
     func tapRecognizer(recognizer : UITapGestureRecognizer!) {

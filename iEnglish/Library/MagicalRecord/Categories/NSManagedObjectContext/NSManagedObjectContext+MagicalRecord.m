@@ -143,7 +143,7 @@ static id MagicalRecordUbiquitySetupNotificationObserver;
 + (void) MR_resetDefaultContext
 {
     NSManagedObjectContext *defaultContext = [NSManagedObjectContext MR_defaultContext];
-    NSAssert(NSConfinementConcurrencyType == [defaultContext concurrencyType], @"Do not call this method on a confinement context.");
+    NSAssert(0x00 == [defaultContext concurrencyType], @"Do not call this method on a confinement context.");
 
     if ([NSThread isMainThread] == NO) {
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -30,32 +30,32 @@ class MenuViewController : UIViewController, UITableViewDataSource, UITableViewD
     }
 
     // MARK: - UITableViewDataSource Methos
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return functionName.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : MenuTableViewCell = tableView.dequeueReusableCellWithIdentifier("TableCell") as! MenuTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : MenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableCell") as! MenuTableViewCell
 
-        cell.functionNameLabel!.text = functionName[indexPath.row]
-        cell.functionImageView?.image = UIImage.init(named: functionImage[indexPath.row])
+        cell.functionNameLabel!.text = functionName[(indexPath as NSIndexPath).row]
+        cell.functionImageView?.image = UIImage.init(named: functionImage[(indexPath as NSIndexPath).row])
         
         return cell
     }
 
     // MARK: - UITableDelegate Methods
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var controller : BaseViewController?
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
         case 0:
-            controller = self.storyboard!.instantiateViewControllerWithIdentifier("PageViewController") as! PageViewController
+            controller = self.storyboard!.instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
             break
         default:
-            controller = self.storyboard!.instantiateViewControllerWithIdentifier("AddViewController") as! AddViewController
+            controller = self.storyboard!.instantiateViewController(withIdentifier: "AddViewController") as! AddViewController
             break
         }
 
-        SlideNavigationController.sharedInstance()!.popAllAndSwitchToViewController(controller, withSlideOutAnimation: false, andCompletion: nil);
+        SlideNavigationController.sharedInstance()!.popAllAndSwitch(to: controller, withSlideOutAnimation: false, andCompletion: nil);
     }
 
 }

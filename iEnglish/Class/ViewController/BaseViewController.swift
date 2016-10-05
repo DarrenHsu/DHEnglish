@@ -30,12 +30,12 @@ class BaseViewController: UIViewController, SlideNavigationControllerDelegate {
         return false
     }
 
-    func showAlert(message : String?) {
-        let alert : UIAlertController = UIAlertController.init(title: "Action", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        let callaction = UIAlertAction(title: "ok",style: .Default, handler: nil);
+    func showAlert(_ message : String?) {
+        let alert : UIAlertController = UIAlertController.init(title: "Action", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let callaction = UIAlertAction(title: "ok",style: .default, handler: nil);
 
         alert.addAction(callaction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
 }

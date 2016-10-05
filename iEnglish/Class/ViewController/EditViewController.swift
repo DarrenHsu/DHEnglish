@@ -15,7 +15,7 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
 
     var selectWord : WordEntity?
 
-    @IBAction func submitPressed(sender : UIButton) {
+    @IBAction func submitPressed(_ sender : UIButton) {
         if !checkData() {
             return
         }
@@ -24,11 +24,11 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
         showAlert("Update Success!")
     }
 
-    @IBAction func backPressed(sender : UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backPressed(_ sender : UIBarButtonItem) {
+        _ = navigationController?.popToRootViewController(animated: true)
     }
 
-    private func checkData() -> Bool {
+    fileprivate func checkData() -> Bool {
         if wordField!.text!.isEmpty {
             showAlert("Oops... Please input word!")
             return false
@@ -53,9 +53,9 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
         wordField?.delegate = self
         setDefaultValue()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardDidHide), name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,19 +63,19 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
         // Dispose of any resources that can be recreated.
     }
 
-    func keyboardWillShow(notification : NSNotification!) {
+    func keyboardWillShow(_ notification : Notification!) {
         let height : CGFloat = (self.wordField?.superview!.frame.origin.y)! - 55
         var frame : CGRect! = self.view.frame
         frame.origin.y = -height
-        UIView.animateWithDuration(0.28, animations: {
+        UIView.animate(withDuration: 0.28, animations: {
             self.view.frame = frame
         })
     }
 
-    func keyboardDidHide(notification : NSNotification!) {
+    func keyboardDidHide(_ notification : Notification!) {
         var frame : CGRect = self.view.frame
         frame.origin.y = 0
-        UIView.animateWithDuration(0.28, animations: {
+        UIView.animate(withDuration: 0.28, animations: {
             self.view.frame = frame
         })
     }
@@ -88,13 +88,13 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
         }
     }
 
-    func tapRecognizer(recognizer : UITapGestureRecognizer!) {
+    func tapRecognizer(_ recognizer : UITapGestureRecognizer!) {
         wordField?.resignFirstResponder()
         sentenceTextView?.resignFirstResponder()
     }
 
     // MARK: UITextViewDelegate Methods
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

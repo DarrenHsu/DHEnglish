@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class PageViewController: BaseViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
@@ -15,12 +35,12 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
     var pageController : UIPageViewController?
     let manager : IEManager = IEManager.sharedInstance
 
-    @IBAction func editPressed(sender : UIBarButtonItem) {
-        let alertController = UIAlertController(title: "Hello", message: "What do you want to do?", preferredStyle: .ActionSheet)
+    @IBAction func editPressed(_ sender : UIBarButtonItem) {
+        let alertController = UIAlertController(title: "Hello", message: "What do you want to do?", preferredStyle: .actionSheet)
 
         if (self.manager.count > 0) {
-            let updateAction = UIAlertAction(title: "Update", style: .Default, handler: {(action : UIAlertAction) -> Void in
-                let controller : EditViewController! = self.storyboard!.instantiateViewControllerWithIdentifier("EditViewController") as! EditViewController
+            let updateAction = UIAlertAction(title: "Update", style: .default, handler: {(action : UIAlertAction) -> Void in
+                let controller : EditViewController! = self.storyboard!.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
 
                 let word : WordEntity! = self.manager.words![self.manager.currentIndex] as! WordEntity
                 controller.selectWord = word
@@ -30,8 +50,8 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         }
 
         if (self.manager.count > 0) {
-            let deleteAction = UIAlertAction(title: "Delete", style: .Default, handler: {(action : UIAlertAction) -> Void in
-                let entity : WordEntity = self.manager.words?.objectAtIndex(self.manager.currentIndex) as! WordEntity
+            let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: {(action : UIAlertAction) -> Void in
+                let entity : WordEntity = self.manager.words?.object(at: self.manager.currentIndex) as! WordEntity
                 entity.delete()
 
                 self.manager.getCurrentWords()
@@ -43,10 +63,10 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
             alertController.addAction(deleteAction)
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
 
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
@@ -64,7 +84,7 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         // Dispose of any resources that can be recreated.
     }
 
-    func goToCurrentPage(animated : Bool) {
+    func goToCurrentPage(_ animated : Bool) {
         pageController?.view.removeFromSuperview()
         pageController?.removeFromParentViewController()
 
@@ -75,19 +95,19 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
 
         self.addChildViewController(pageController!)
         pageView!.addSubview((pageController?.view)!)
-        pageController?.didMoveToParentViewController(self)
+        pageController?.didMove(toParentViewController: self)
 
         let c : ContentViewController? = getContentController(manager.currentIndex)
 
         if (c != nil) {
-            pageController?.setViewControllers([c!], direction: UIPageViewControllerNavigationDirection.Reverse, animated: animated, completion: nil)
+            pageController?.setViewControllers([c!], direction: UIPageViewControllerNavigationDirection.reverse, animated: animated, completion: nil)
         }
     }
 
-    func getContentController(pageIndex : NSInteger) -> ContentViewController? {
+    func getContentController(_ pageIndex : NSInteger) -> ContentViewController? {
         print("page index \(pageIndex)")
         if (0 <= pageIndex && pageIndex < manager.count) {
-            let controller : ContentViewController? = self.storyboard!.instantiateViewControllerWithIdentifier("ContentViewController") as? ContentViewController
+            let controller : ContentViewController? = self.storyboard!.instantiateViewController(withIdentifier: "ContentViewController") as? ContentViewController
             controller?.currentIndex = pageIndex
             return controller;
         } else {
@@ -96,16 +116,16 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
     }
 
     // MARK: - UIPageViewController DataSsource
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         return getContentController(manager.currentIndex - 1)
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         return getContentController(manager.currentIndex + 1)
     }
 
     // MARK: - UIPageViewController Delegate 
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed != true {
             for previousViewController in previousViewControllers {
                 let index : NSInteger? = (previousViewController as! ContentViewController).currentIndex

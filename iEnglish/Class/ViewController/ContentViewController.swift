@@ -22,7 +22,7 @@ class ContentViewController: UIViewController {
         manager.currentIndex = currentIndex!
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         setDefaultData()
@@ -34,7 +34,7 @@ class ContentViewController: UIViewController {
     }
 
     func setDefaultData() {
-        let entity : WordEntity = manager.words?.objectAtIndex(currentIndex!) as! WordEntity
+        let entity : WordEntity = manager.words?.object(at: currentIndex!) as! WordEntity
         wordLabel?.text = entity.word
 
         let str : NSMutableString! = NSMutableString.init()

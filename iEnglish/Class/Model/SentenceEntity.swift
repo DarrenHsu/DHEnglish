@@ -13,7 +13,7 @@ import CoreData
 class SentenceEntity: NSManagedObject {
 
     //MARK: - Predicate
-    static func appendPredicate(pre : NSPredicate?, sentence : String?) -> NSPredicate? {
+    static func appendPredicate(_ pre : NSPredicate?, sentence : String?) -> NSPredicate? {
         if (sentence != nil) {
             let p : NSPredicate = NSPredicate.init(format: "sentence == %@", sentence!)
             if (pre != nil) {
@@ -26,7 +26,7 @@ class SentenceEntity: NSManagedObject {
         }
     }
 
-    static func appendPredicate(pre : NSPredicate?, wEntity : WordEntity?) -> NSPredicate? {
+    static func appendPredicate(_ pre : NSPredicate?, wEntity : WordEntity?) -> NSPredicate? {
         if (wEntity != nil) {
             let p : NSPredicate = NSPredicate.init(format: "rs_Word == %@", wEntity!)
             if (pre != nil) {
@@ -40,34 +40,34 @@ class SentenceEntity: NSManagedObject {
     }
 
     //MARK: - Helper Methods
-    static func addSentence(sentence : String?, wEntity : WordEntity!, context : NSManagedObjectContext!) {
+    static func addSentence(_ sentence : String?, wEntity : WordEntity!, context : NSManagedObjectContext!) {
         let pre : NSPredicate = appendPredicate(nil, sentence: sentence)!
-        var entity : SentenceEntity? = SentenceEntity.MR_findFirstWithPredicate(pre, inContext: context)
+        var entity : SentenceEntity? = SentenceEntity.mr_findFirst(with: pre, in: context)
         if (entity == nil) {
-            entity = SentenceEntity.MR_createEntityInContext(context)
+            entity = SentenceEntity.mr_createEntity(in: context)
         }
 
         entity?.sentence = sentence
         entity?.rs_Word = wEntity
     }
 
-    static func getSentence(wEntity : WordEntity) -> SentenceEntity {
+    static func getSentence(_ wEntity : WordEntity) -> SentenceEntity {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
-        let context : NSManagedObjectContext! = NSManagedObjectContext.MR_defaultContext()
+        let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()
         let pre : NSPredicate! = appendPredicate(nil, wEntity: wEntity)
-        let result : SentenceEntity! = SentenceEntity.MR_findFirstWithPredicate(pre, inContext: context)
+        let result : SentenceEntity! = SentenceEntity.mr_findFirst(with: pre, in: context)
 
         print("<DB> \(NSStringFromSelector(#function)) end")
 
         return result
     }
 
-    static func deleteSentence(wEntity : WordEntity? , context : NSManagedObjectContext?) {
+    static func deleteSentence(_ wEntity : WordEntity? , context : NSManagedObjectContext?) {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
         let pre : NSPredicate = appendPredicate(nil, wEntity: wEntity)!
-        let sEntities : [SentenceEntity]! = SentenceEntity.MR_findAllWithPredicate(pre, inContext: context) as! [SentenceEntity]
+        let sEntities : [SentenceEntity]! = SentenceEntity.mr_findAll(with: pre, in: context) as! [SentenceEntity]
 
         for sEntity in sEntities! {
             sEntity.deleteInContext(context)
@@ -77,12 +77,12 @@ class SentenceEntity: NSManagedObject {
     }
 
     func delete() {
-        let context : NSManagedObjectContext! = NSManagedObjectContext.MR_defaultContext()
+        let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()
         deleteInContext(context)
     }
 
-    func deleteInContext(context : NSManagedObjectContext?) {
-        let entity : SentenceEntity? = self.MR_inContext(context)
-        entity?.MR_deleteEntityInContext(context)
+    func deleteInContext(_ context : NSManagedObjectContext?) {
+        let entity : SentenceEntity? = self.mr_(in: context)
+        entity?.mr_deleteEntity(in: context)
     }
 }

@@ -13,7 +13,7 @@ import CoreData
 class WordEntity: NSManagedObject {
 
     //MARK: - Predicate
-    static func appendPredicate(pre : NSPredicate?, word : String?) -> NSPredicate? {
+    static func appendPredicate(_ pre : NSPredicate?, word : String?) -> NSPredicate? {
         if (word != nil) {
             let p : NSPredicate = NSPredicate.init(format: "word == %@", word!)
             if (pre != nil) {
@@ -30,10 +30,10 @@ class WordEntity: NSManagedObject {
     static func getWords() -> NSArray! {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
-        let context : NSManagedObjectContext! = NSManagedObjectContext.MR_defaultContext()
-        let entities : [AnyObject]! = WordEntity.MR_findAllSortedBy("number", ascending: true, inContext: context!)
+        let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()
+        let entities : [AnyObject]! = WordEntity.mr_findAllSorted(by: "number", ascending: true, in: context!) as [AnyObject]!
         let result : NSMutableArray! = NSMutableArray()
-        result.addObjectsFromArray(entities)
+        result.addObjects(from: entities)
 
         print("<DB> \(NSStringFromSelector(#function)) end")
 
@@ -43,72 +43,72 @@ class WordEntity: NSManagedObject {
     static func getCount() -> UInt {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
-        let context : NSManagedObjectContext! = NSManagedObjectContext.MR_defaultContext()
-        let count : UInt = WordEntity.MR_countOfEntitiesWithContext(context)
+        let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()
+        let count : UInt = WordEntity.mr_countOfEntities(with: context)
 
         print("<DB> \(NSStringFromSelector(#function)) end")
 
         return count
     }
 
-    static func addWord(word : String?) {
-        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+    static func addWord(_ word : String?) {
+        MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
             let pre : NSPredicate = appendPredicate(nil, word: word)!
-            var entity : WordEntity? = WordEntity.MR_findFirstWithPredicate(pre, inContext: context!)
+            var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
             if (entity != nil) {
                 let count : UInt = getCount()
-                entity = WordEntity.MR_createEntityInContext(context!)
-                entity?.number = count + 1
+                entity = WordEntity.mr_createEntity(in: context!)
+                entity?.number = NSNumber(integerLiteral: Int(count) + 1)
             }
 
             entity?.word = word
 
             print("<DB> \(NSStringFromSelector(#function)) end")
-        }
+        })
     }
 
-    static func addWord(word : String?, sentence : String?) {
-        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+    static func addWord(_ word : String?, sentence : String?) {
+        MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
             let pre : NSPredicate = appendPredicate(nil, word: word)!
-            var entity : WordEntity? = WordEntity.MR_findFirstWithPredicate(pre, inContext: context!)
+            var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
             if (entity == nil) {
                 let count : UInt = getCount()
-                entity = WordEntity.MR_createEntityInContext(context!)
-                entity?.number = count + 1
+                entity = WordEntity.mr_createEntity(in: context!)
+                entity?.number = NSNumber(integerLiteral: Int(count) + 1)
             }
 
             entity?.word = word
             SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
             
             print("<DB> \(NSStringFromSelector(#function)) end")
-        }
+        })
     }
 
-    func update(word : String?, sentence : String?) {
-        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+    func update(_ word : String?, sentence : String?) {
+        MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
-            let entity : WordEntity? = self.MR_inContext(context)
+            let entity : WordEntity? = self.mr_(in: context)
             entity?.word = word
             SentenceEntity.deleteSentence(entity, context: context)
             SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
 
             print("<DB> \(NSStringFromSelector(#function)) end")
-        }
+        })
     }
 
     func delete() {
-        MagicalRecord.saveWithBlockAndWait { (context : NSManagedObjectContext!) -> Void in
+        MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
-            let entity : WordEntity? = self.MR_inContext(context)
-            entity?.MR_deleteEntityInContext(context)
+            let entity : WordEntity? = self.mr_(in: context)
+            entity?.mr_deleteEntity(in: context)
 
             print("<DB> \(NSStringFromSelector(#function)) end")
-        }
+        })
     }
 }

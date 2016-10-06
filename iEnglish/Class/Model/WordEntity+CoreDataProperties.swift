@@ -16,6 +16,7 @@ extension NSManagedObject {
 
     @NSManaged var number: NSNumber?
     @NSManaged var word: String?
+    @NSManaged var chiness: String?
     @NSManaged var rs_Sentence: NSSet?
 
 }

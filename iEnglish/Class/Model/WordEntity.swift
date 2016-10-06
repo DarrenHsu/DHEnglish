@@ -51,49 +51,79 @@ class WordEntity: NSManagedObject {
         return count
     }
 
-    static func addWord(_ word : String?) {
+    static func addWord(_ words : [Any]?, success : (() -> Void)?) {
+        MagicalRecord.save({ (context) in
+            for w in words! {
+                let _w = w as! NSDictionary
+                let word = _w["word"] as! String
+                let sentence = _w["sentence"] as! String
+                let chiness = _w["chiness"] as! String
+
+                let pre : NSPredicate = appendPredicate(nil, word: word)!
+                var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
+                if entity == nil {
+                    let count : UInt = getCount()
+                    entity = WordEntity.mr_createEntity(in: context!)
+                    entity?.number = NSNumber(integerLiteral: Int(count) + 1)
+                }
+
+                entity?.word = word
+                entity?.chiness = chiness
+                SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
+            }
+        }) { (complete, error) in
+            if complete && error == nil {
+                success?()
+            }
+        }
+    }
+
+    static func addWord(_ word : String?, chiness : String) {
         MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
             let pre : NSPredicate = appendPredicate(nil, word: word)!
             var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
-            if (entity != nil) {
+            if entity == nil {
                 let count : UInt = getCount()
                 entity = WordEntity.mr_createEntity(in: context!)
                 entity?.number = NSNumber(integerLiteral: Int(count) + 1)
             }
 
             entity?.word = word
+            entity?.chiness = chiness
 
             print("<DB> \(NSStringFromSelector(#function)) end")
         })
     }
 
-    static func addWord(_ word : String?, sentence : String?) {
+    static func addWord(_ word : String?, chiness : String?, sentence : String?) {
         MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
             let pre : NSPredicate = appendPredicate(nil, word: word)!
             var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
-            if (entity == nil) {
+            if entity == nil {
                 let count : UInt = getCount()
                 entity = WordEntity.mr_createEntity(in: context!)
                 entity?.number = NSNumber(integerLiteral: Int(count) + 1)
             }
 
             entity?.word = word
+            entity?.chiness = chiness
             SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
             
             print("<DB> \(NSStringFromSelector(#function)) end")
         })
     }
 
-    func update(_ word : String?, sentence : String?) {
+    func update(_ word : String?, chiness : String?, sentence : String?) {
         MagicalRecord.save(blockAndWait: { (context) in
             print("<DB> \(NSStringFromSelector(#function)) start")
 
             let entity : WordEntity? = self.mr_(in: context)
             entity?.word = word
+            entity?.chiness = chiness
             SentenceEntity.deleteSentence(entity, context: context)
             SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
 

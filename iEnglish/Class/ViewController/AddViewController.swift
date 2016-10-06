@@ -12,13 +12,14 @@ class AddViewController: BaseViewController, UITextFieldDelegate {
 
     @IBOutlet weak var wordField : UITextField?
     @IBOutlet weak var sentenceTextView: UITextView?
+    @IBOutlet weak var chinessField : UITextField?
 
     @IBAction func submitPressed(_ sender : UIButton) {
         if !checkData() {
             return
         }
 
-        WordEntity.addWord(wordField?.text, sentence: sentenceTextView?.text)
+        WordEntity.addWord(wordField?.text, chiness: chinessField?.text, sentence: sentenceTextView?.text)
         wordField?.text = nil
         sentenceTextView?.text = nil
         showAlert("Add Success!")

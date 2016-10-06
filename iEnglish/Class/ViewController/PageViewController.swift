@@ -30,7 +30,8 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class PageViewController: BaseViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    @IBOutlet weak var pageView : UIView?
+    @IBOutlet weak var pageView: UIView?
+    @IBOutlet weak var loadingView: UIView?
 
     var pageController : UIPageViewController?
     let manager : IEManager = IEManager.sharedInstance
@@ -63,6 +64,27 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
             alertController.addAction(deleteAction)
         }
 
+
+        let downloadAction = UIAlertAction(title: "Download", style: .default, handler: {(action : UIAlertAction) -> Void in
+            let feed = IEFeedManager.sharedInstance
+
+            self.view.bringSubview(toFront: self.loadingView!)
+            self.loadingView?.isHidden = false
+
+            feed.requestWord(success: {
+                self.manager.getCurrentWords()
+                self.manager.currentIndex = self.manager.currentIndex != 0 ? self.manager.currentIndex - 1 : 0
+
+                self.goToCurrentPage(false)
+
+                self.loadingView?.isHidden = true
+            }, faild: {
+                self.loadingView?.isHidden = true
+            })
+        })
+
+        alertController.addAction(downloadAction)
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
 
@@ -73,6 +95,9 @@ class PageViewController: BaseViewController, UIPageViewControllerDataSource, UI
         super.viewDidLoad()
 
         self.title = "Word Book"
+
+        loadingView?.layer.cornerRadius = 10
+        loadingView?.isHidden = true
 
         manager.getCurrentWords()
 

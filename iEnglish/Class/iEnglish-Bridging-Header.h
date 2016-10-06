@@ -4,3 +4,4 @@
 
 #import "CoreData+MagicalRecord.h"
 #import "SlideNavigationController.h"
+#import "AFNetworking.h"

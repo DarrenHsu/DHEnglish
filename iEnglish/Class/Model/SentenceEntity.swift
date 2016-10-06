@@ -41,7 +41,8 @@ class SentenceEntity: NSManagedObject {
 
     //MARK: - Helper Methods
     static func addSentence(_ sentence : String?, wEntity : WordEntity!, context : NSManagedObjectContext!) {
-        let pre : NSPredicate = appendPredicate(nil, sentence: sentence)!
+        var pre : NSPredicate = appendPredicate(nil, wEntity: wEntity)!
+        pre = appendPredicate(pre, sentence: sentence)!
         var entity : SentenceEntity? = SentenceEntity.mr_findFirst(with: pre, in: context)
         if (entity == nil) {
             entity = SentenceEntity.mr_createEntity(in: context)
@@ -51,7 +52,7 @@ class SentenceEntity: NSManagedObject {
         entity?.rs_Word = wEntity
     }
 
-    static func getSentence(_ wEntity : WordEntity) -> SentenceEntity {
+    static func getSentence(_ wEntity : WordEntity) -> SentenceEntity? {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
         let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()

@@ -14,6 +14,7 @@ class ContentViewController: UIViewController {
     let manager : IEManager = IEManager.sharedInstance
 
     @IBOutlet weak var wordLabel : UILabel?
+    @IBOutlet weak var chinessLabel : UILabel?
     @IBOutlet weak var sentenceLabel : UILabel?
 
     override func viewDidLoad() {
@@ -36,11 +37,10 @@ class ContentViewController: UIViewController {
     func setDefaultData() {
         let entity : WordEntity = manager.words?.object(at: currentIndex!) as! WordEntity
         wordLabel?.text = entity.word
+        chinessLabel?.text = entity.chiness
 
-        let str : NSMutableString! = NSMutableString.init()
         let sEntity : SentenceEntity? = SentenceEntity.getSentence(entity)
-        str.appendFormat("%@\n", sEntity!.sentence!)
 
-        sentenceLabel?.text = str.description
+        sentenceLabel?.text = sEntity?.sentence
     }
 }

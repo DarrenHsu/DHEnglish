@@ -12,6 +12,7 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
 
     @IBOutlet weak var wordField : UITextField?
     @IBOutlet weak var sentenceTextView: UITextView?
+    @IBOutlet weak var chinessField : UITextField?
 
     var selectWord : WordEntity?
 
@@ -20,7 +21,7 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
             return
         }
 
-        selectWord?.update(wordField?.text, sentence: sentenceTextView?.text)
+        selectWord?.update(wordField?.text, chiness: chinessField?.text, sentence: sentenceTextView?.text)
         showAlert("Update Success!")
     }
 
@@ -85,6 +86,7 @@ class EditViewController: BaseViewController, UITextViewDelegate, UITextFieldDel
             wordField?.text = selectWord?.word
             let sEntity : SentenceEntity? = SentenceEntity.getSentence(selectWord!)
             sentenceTextView?.text = sEntity?.sentence
+            chinessField?.text = selectWord?.chiness
         }
     }
 

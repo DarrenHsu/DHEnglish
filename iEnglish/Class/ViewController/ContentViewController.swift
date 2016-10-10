@@ -8,11 +8,21 @@
 
 import UIKit
 
+extension String {
+    func heightWithConstrainedWidth(_ width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+
+        return boundingBox.height
+    }
+}
+
 class ContentViewController: UIViewController {
 
     var currentIndex : NSInteger?
     let manager : IEManager = IEManager.sharedInstance
 
+    @IBOutlet weak var baseScrollView : UIScrollView?
     @IBOutlet weak var wordLabel : UILabel?
     @IBOutlet weak var chinessLabel : UILabel?
     @IBOutlet weak var sentenceLabel : UILabel?
@@ -35,12 +45,26 @@ class ContentViewController: UIViewController {
     }
 
     func setDefaultData() {
+        var contentHeight:CGFloat = 0
         let entity : WordEntity = manager.words?.object(at: currentIndex!) as! WordEntity
         wordLabel?.text = entity.word
+
+        let wHeight = entity.word?.heightWithConstrainedWidth((wordLabel?.frame.size.width)!, font: (wordLabel?.font)!)
+        wordLabel?.frame = CGRect(x: (wordLabel?.frame.origin.x)!, y: (wordLabel?.frame.origin.y)!, width: (wordLabel?.frame.size.width)!, height: wHeight!)
+        contentHeight += wHeight!
+
         chinessLabel?.text = entity.chiness
+        let cHeight = entity.chiness?.heightWithConstrainedWidth((chinessLabel?.frame.size.width)!, font: (chinessLabel?.font)!)
+        chinessLabel?.frame = CGRect(x: (chinessLabel?.frame.origin.x)!, y: (wordLabel?.frame.origin.y)! + (wordLabel?.frame.size.height)! + 10, width: (chinessLabel?.frame.size.width)!, height: cHeight!)
+        contentHeight += cHeight! + 10
 
         let sEntity : SentenceEntity? = SentenceEntity.getSentence(entity)
-
         sentenceLabel?.text = sEntity?.sentence
+        let sHeight = sEntity?.sentence?.heightWithConstrainedWidth((sentenceLabel?.frame.size.width)!, font: (sentenceLabel?.font)!)
+        sentenceLabel?.frame = CGRect(x: (sentenceLabel?.frame.origin.x)!, y: (chinessLabel?.frame.origin.y)! + (chinessLabel?.frame.size.height)! + 10, width: (sentenceLabel?.frame.size.width)!, height: sHeight!)
+        contentHeight += sHeight! + 10
+
+        baseScrollView?.contentSize = CGSize(width: (baseScrollView?.frame.size.width)!, height: contentHeight + 55)
+
     }
 }

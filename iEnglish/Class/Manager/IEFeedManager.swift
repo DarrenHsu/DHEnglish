@@ -9,7 +9,8 @@
 import UIKit
 
 //let ResourceURL = "http://localhost:8888/wjson"
-let ResourceURL = "http://192.168.1.103:8888/wjson"
+//let ResourceURL = "http://192.168.1.103:8888/wjson"
+let ResourceURL = "http://172.20.10.4:8888/wjson"
 
 class IEFeedManager: NSObject {
     static let sharedInstance = IEFeedManager()

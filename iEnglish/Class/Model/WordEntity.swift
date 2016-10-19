@@ -55,6 +55,7 @@ class WordEntity: NSManagedObject {
         MagicalRecord.save({ (context) in
             for w in words! {
                 let _w = w as! NSDictionary
+                let no = _w["no"] as! NSNumber
                 let word = _w["word"] as! String
                 let sentence = _w["sentence"] as! String
                 let chiness = _w["chiness"] as! String
@@ -62,13 +63,13 @@ class WordEntity: NSManagedObject {
                 let pre : NSPredicate = appendPredicate(nil, word: word)!
                 var entity : WordEntity? = WordEntity.mr_findFirst(with: pre, in: context!)
                 if entity == nil {
-                    let count : UInt = getCount()
                     entity = WordEntity.mr_createEntity(in: context!)
-                    entity?.number = NSNumber(integerLiteral: Int(count) + 1)
+                    entity?.number = no
                 }
 
                 entity?.word = word
                 entity?.chiness = chiness
+
                 SentenceEntity.addSentence(sentence, wEntity: entity, context: context)
             }
         }) { (complete, error) in

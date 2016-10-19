@@ -17,12 +17,13 @@ extension String {
     }
 }
 
-class ContentViewController: UIViewController {
+class ContentViewController: UIViewController, UIScrollViewDelegate {
 
     var currentIndex : NSInteger?
     let manager : IEManager = IEManager.sharedInstance
 
     @IBOutlet weak var baseScrollView : UIScrollView?
+    @IBOutlet weak var baseView : UIView?
     @IBOutlet weak var wordLabel : UILabel?
     @IBOutlet weak var chinessLabel : UILabel?
     @IBOutlet weak var sentenceLabel : UILabel?
@@ -64,7 +65,19 @@ class ContentViewController: UIViewController {
         sentenceLabel?.frame = CGRect(x: (sentenceLabel?.frame.origin.x)!, y: (chinessLabel?.frame.origin.y)! + (chinessLabel?.frame.size.height)! + 10, width: (sentenceLabel?.frame.size.width)!, height: sHeight!)
         contentHeight += sHeight! + 10
 
-        baseScrollView?.contentSize = CGSize(width: (baseScrollView?.frame.size.width)!, height: contentHeight + 55)
+        baseView?.frame = CGRect(x: 0, y: 0, width: (baseScrollView?.frame.size.width)!, height: contentHeight)
+        baseScrollView?.contentSize = CGSize(width: (baseScrollView?.frame.size.width)!, height: contentHeight)
+    }
 
+    func zoomScaleThatFits(target: CGSize, source: CGSize ) -> CGFloat {
+        let w_scale : CGFloat = (target.width / source.width)
+        let h_scale : CGFloat = (target.height / source.height)
+
+        return ((w_scale < h_scale) ? w_scale : h_scale)
+    }
+
+    // MARK: - UIScrollViewDelegate Methods
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return baseView
     }
 }

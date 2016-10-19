@@ -31,6 +31,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class PageViewController: BaseViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     @IBOutlet weak var pageView: UIView?
+    @IBOutlet weak var scrollView: UIScrollView?
     @IBOutlet weak var loadingView: UIView?
 
     var pageController : UIPageViewController?

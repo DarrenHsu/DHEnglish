@@ -31,7 +31,7 @@ class WordEntity: NSManagedObject {
         print("<DB> \(NSStringFromSelector(#function)) start")
 
         let context : NSManagedObjectContext! = NSManagedObjectContext.mr_default()
-        let entities : [AnyObject]! = WordEntity.mr_findAllSorted(by: "number", ascending: true, in: context!) as [AnyObject]!
+        let entities : [AnyObject]! = WordEntity.mr_findAllSorted(by: "number", ascending: false, in: context!) as [AnyObject]!
         let result : NSMutableArray! = NSMutableArray()
         result.addObjects(from: entities)
 
